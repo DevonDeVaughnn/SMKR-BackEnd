@@ -1,1 +1,1 @@
-//delete account
+//var admin = require("firebase-admin");

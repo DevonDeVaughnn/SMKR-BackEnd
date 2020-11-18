@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 
 class FriendSearch extends Component {
-
-  
   render() {
     return (
       <div className="main">
         <div className="mainDiv">
-          <form onSubmit={this.handleSubmit.bind(this)}>
-            <h3>Enter a Friend!</h3>
+          <Nav />
+          <form>
+            <h3>Find a SMKR!</h3>
             <fieldset className="form-group">
-              <label>Friend's Name:</label>
+              <label>SMKR's Name:</label>
               <input
                 type="text"
                 ref="name"
@@ -20,7 +19,7 @@ class FriendSearch extends Component {
             </fieldset>
 
             <fieldset className="form-group">
-              <label>Friend's Email:</label>
+              <label>SMKR's Email:</label>
               <input
                 type="text"
                 ref="email"
@@ -29,7 +28,7 @@ class FriendSearch extends Component {
               />
             </fieldset>
             <button className="btn btn-success" type="submit">
-              Save Friend
+              Find SMKR
             </button>
           </form>
         </div>

@@ -65,8 +65,8 @@ function Form() {
               type="text"
               id="userName"
               name="userName"
-              value={user.userName}
-              onChange={handleChange}
+              //value={user.userName}
+              //onChange={handleChange}
             />
           </div>
           <div

@@ -10,7 +10,7 @@ body {
 }
 .wrapper {
   background: url("https://images.unsplash.com/photo-1465146633011-14f8e0781093?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3450&q=80");
-  color: #eee;
+  color: #eeeeee;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -27,16 +27,17 @@ body {
   }
 }
 .myImage {
-  width: 200px;
-  height: 200px;
+  width: 155px;
+  height: 155px;
   background-image: url("../../assets/images/whiteLogo2.png");
   background-repeat: no-repeat;
   background-size: 100%;
+  padding-top: 1em;
   margin: 0 auto;
 }
-.card,
-#form {
-  background-image: linear-gradient(
+
+.card {
+  background: linear-gradient(
     to top left,
     rgba(0, 253, 0, 0.185),
     rgba(0, 0, 0, 0.603),
@@ -70,7 +71,7 @@ input:focus {
   text-decoration: underline;
   color: white;
 }
-.card {
+#form {
   background: transparent;
 }
 .btn-primary,
@@ -82,4 +83,33 @@ input:focus {
   background-color: rgba(0, 64, 80, 0.466) !important;
   color: #c3ffd8bb !important;
   cursor: url(https://cur.cursors-4u.net/nature/nat-2/nat120.cur), auto !important;
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  .wrapper {
+    background-size: 100%;
+  }
+  .card {
+    width: 100%;
+    margin-bottom: 0 auto;
+  }
+}
+@media only screen and (min-device-width: 375px) and (max-device-width: 768px) {
+  body {
+    font-size: 0.7rem;
+  }
+  .wrapper {
+    background-size: 100%;
+  }
+  .card {
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    align-items: center;
+  }
+  .myImage {
+    height: 50px;
+    width: 50px;
+  }
 }

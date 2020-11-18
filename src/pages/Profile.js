@@ -11,137 +11,60 @@
 */
 import React from "react";
 import Nav from "../components/Nav/index";
+import Jumbotron from "../components/Jumbotron";
 
-import "../App.css";
-import { Col, Row, Container } from "../components/Grid";
+import "../components/Profiles/style.css";
+import { Col, Row, Container } from "react-bootstrap";
 
-const Home = () => {
+const Profile = () => {
   return (
     <div>
-      <Container fluid>
+      <Container>
         <Row>
-          <Col size=" md-3" className="column">
-            <h2>Random bad movie posters</h2>
-
-            <ul
-              style={{
-                listStyleType: "none",
-                paddingTop: "150px",
-              }}
-            >
-              <li>
-                <a href="#" id="shops">
-                  <img src="https://picsum.photos/200" alt="" />
-                </a>
-              </li>
-            </ul>
-            <ul
-              style={{
-                listStyleType: "none",
-              }}
-            >
-              <li>
-                <a href="#" id="shops">
-                  <img src="https://picsum.photos/200" alt="" />
-                </a>
-              </li>
-            </ul>
-            <ul
-              style={{
-                listStyleType: "none",
-              }}
-            >
-              <li>
-                <a href="#" id="shops">
-                  <img src="https://picsum.photos/200" alt="" />
-                </a>
-              </li>
-            </ul>
-            <ul
-              style={{
-                listStyleType: "none",
-              }}
-            >
-              <li>
-                <a href="#" id="shops">
-                  <img src="https://picsum.photos/200" alt="" />
-                </a>
-              </li>
-            </ul>
+          <Nav />
+        </Row>
+        <Row>
+          <Jumbotron />
+        </Row>
+        <Row>
+          <Col className="columns spotify-widget">Spotify widget</Col>
+        </Row>
+        <Row className="rows">
+          <Col className="columns profile-picture" lg={12}>
+            <img src="https://picsum.photos/200"></img>
+            <h4>User Name</h4>
           </Col>
-
-          <Col size="md-6" className="column">
-            <Nav />
-            <img
-              src="https://picsum.photos/400"
-              alt=""
-              style={{
-                border: "5px solid #555",
-                borderRadius: "10px",
-                marginTop: "150px",
-              }}
-            />
-            <h5>This will be the users name</h5>
-            <hr />
-            <h1>This will be users stream</h1>
-
-            <hr />
-            <h2>
-              This will be three boxes with cards of their fav three strands
-            </h2>
+        </Row>
+        <Row>
+          <Col className="columns" lg={6}>
+            Cards with liked recipes and strains
           </Col>
-          <Col size="md-3" className="column">
-            <h2>Food options</h2>
-            <ul
-              style={{
-                listStyleType: "none",
-                paddingTop: "150px",
-              }}
-            >
-              <li>
-                <a href="#" id="shops">
-                  <img src="https://picsum.photos/200" alt="" />
-                </a>
-              </li>
-            </ul>
-
-            <ul
-              style={{
-                listStyleType: "none",
-              }}
-            >
-              <li>
-                <a href="#" id="shops">
-                  <img src="https://picsum.photos/200" alt="" />
-                </a>
-              </li>
-            </ul>
-            <ul
-              style={{
-                listStyleType: "none",
-              }}
-            >
-              <li>
-                <a href="#" id="shops">
-                  <img src="https://picsum.photos/200" alt="" />
-                </a>
-              </li>
-            </ul>
-            <ul
-              style={{
-                listStyleType: "none",
-              }}
-            >
-              <li>
-                <a href="#" id="shops">
-                  <img src="https://picsum.photos/200" alt="" />
-                </a>
-              </li>
-            </ul>
+          <Col className="columns">Shops</Col>
+          <Col className="columns">Food</Col>
+        </Row>
+        <Row>
+          <Col className="columns liked-row" lg={12}>
+            Three cards of previously liked recipes/strains
+          </Col>
+        </Row>
+        <Row>
+          <Col className="columns movie-column-button">
+            <button className="btn btn-primary display-movie-btn">
+              Button that grabs poster and places it inside the row below
+            </button>
+          </Col>
+        </Row>
+        <Row>
+          <Col className="columns movie-column">
+            <div className="jumbotron jumbotron-fluid movie-jumbotron">
+              <div class="container-fluid">
+                image that takes up width of col displays movies
+              </div>
+            </div>
           </Col>
         </Row>
       </Container>
     </div>
   );
 };
-export default Home;
+export default Profile;

@@ -79,7 +79,10 @@ function SearchStrain() {
             </li>
           </ul>
           <div className="cardBody">
-            <button className="cardLink" onClick={() => handleButtonClick(-1)}>
+            <button
+              className="cardLink btn btn-primary"
+              onClick={() => handleButtonClick(-1)}
+            >
               Prev
             </button>
             <button className="cardLink" onClick={() => handleButtonClick(1)}>
@@ -89,7 +92,7 @@ function SearchStrain() {
               Like
             </button>
             <button className="cardLink" onClick={() => handleButtonClick(1)}>
-              Request
+              Recommend
             </button>
           </div>
         </article>
