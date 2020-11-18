@@ -2,21 +2,24 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
-const userRoutes = require("./routes/userRoutes");
+const userRoutes = require("./routes/authRouter");
+const cors = require("cors");
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+
+app.use(cors());
+const PORT = process.env.PORT || 5000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 require("dotenv").config();
-require("./routes"); //(app, {});
 
 // Define middleware here
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 console.log(process.env.MONGODB_URI);
+
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
@@ -40,7 +43,7 @@ app.use((req, res, next) => {
   next();
 });
 // Add routes, both API and view
-app.use("/user", userRoutes);
+app.use("/users", userRoutes);
 
 app.use((req, res, next) => {
   const error = new Error("Not found");
