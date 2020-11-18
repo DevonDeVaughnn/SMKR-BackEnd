@@ -9,7 +9,7 @@ import Strain from "./pages/Strain";
 // import Messages from "./pages/Messages"
 import Profile from "./pages/Profile";
 import OMDB from "./pages/OMDB";
-import FriendsPage from "./pages/Friends";
+//import FriendsPage from "./pages/Friends";
 import Home from "./pages/Home";
 import StrainSearch from "./pages/Straindex";
 
@@ -54,7 +54,7 @@ export default function App() {
             <Route exact path="/home" component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/profile" component={Profile} />
-            <Route exact path="/friends" component={FriendsPage} />
+            {/* <Route exact path="/friends" component={FriendsPage} /> */}
             <Route exact path="/straindex" component={StrainSearch} />
             {/* <Route exact path="/messages" component={Messages} /> */}
             <Route exact path="/straindex/:id" component={Strain} />
