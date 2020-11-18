@@ -1,6 +1,7 @@
 import React from "react";
 
 const facts = require("../Api/Strains/weedFacts.json");
+
 function Factoids() {
   const randomFactoid = facts.facts;
   const displayRandomFact =
