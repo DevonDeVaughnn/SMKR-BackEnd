@@ -2,7 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
-const userRoutes = require("./routes/authRouter");
+const strainRoute = require("./routes/strain");
+const authRoute = require("./routes/auth");
+
 const cors = require("cors");
 
 const app = express();
@@ -43,7 +45,11 @@ app.use((req, res, next) => {
   next();
 });
 // Add routes, both API and view
-app.use("/users", userRoutes);
+
+app.use("api/strains", strainRoute);
+app.use("/api", authRoute);
+
+//Move after finished
 
 app.use((req, res, next) => {
   const error = new Error("Not found");
@@ -64,6 +70,9 @@ app.use((error, req, res, next) => {
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/smkrdb", {
   useNewUrlParser: true,
   useCreateIndex: true,
+});
+mongoose.connection.on("connected", () => {
+  console.log("Mongoose connected");
 });
 
 // Start the API server
