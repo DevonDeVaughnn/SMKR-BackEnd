@@ -37,37 +37,48 @@ const login = (req, res) => {
     .then((dbUser) => {
       console.log(dbUser);
       if (dbUser) {
-        bcrypt.compare(req.body.password, dbUser.password, function (
-          err,
-          results
-        ) {
-          if (err) {
-            console.log("handle error");
+        bcrypt.compare(
+          req.body.password,
+          dbUser.password,
+          function (err, results) {
+            if (err) {
+              console.log("handle error");
+            }
+            if (results) {
+              let token = jwt.sign(
+                { username: dbUser.username },
+                process.env.JWT_SECRET,
+                {
+                  expiresIn: "1h",
+                }
+              );
+              console.log("We have found results");
+              res.json({
+                message: "Login Successful SMKR we made it",
+                token: token,
+                success: true,
+              });
+              console.log(token);
+            } else {
+              res.json({ success: false, message: "passwords do not match" });
+            }
           }
-          if (results) {
-            let token = jwt.sign(
-              { username: dbUser.username },
-              process.env.JWT_SECRET,
-              {
-                expiresIn: "1h",
-              }
-            );
-            console.log("We have found results");
-            res.json({
-              message: "Login Successful SMKR we made it",
-              token: token,
-              success: true,
-            });
-            console.log(token);
-          } else {
-            res.json({ success: false, message: "passwords do not match" });
-          }
-        });
+        );
       }
     })
     .catch((err) => {
       console.log("We didnt get anything");
     });
 };
+const deleteUser = (req, res) => {
+  const id = req.params.id;
+  User.findByIdAndDelete(id, function (err, user) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("deleted", user);
+    }
+  });
+};
 
-module.exports = { signUp, login };
+module.exports = { signUp, login, deleteUser };
