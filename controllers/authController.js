@@ -1,5 +1,6 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
+
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -18,8 +19,8 @@ const signUp = (req, res, next) => {
     });
     user
       .save()
-      .then((user) => {
-        res.json({ message: "User Saved" });
+      .then((dbUser) => {
+        res.json({ success: true, message: "User Saved" });
       })
       .catch((error) => {
         res.json({
@@ -30,9 +31,6 @@ const signUp = (req, res, next) => {
 };
 
 const login = (req, res) => {
-  let username = req.body.username;
-  let password = req.body.password;
-  console.log({ username: req.body.username });
   User.findOne({ username: req.body.username })
     .then((dbUser) => {
       console.log(dbUser);
@@ -52,13 +50,12 @@ const login = (req, res) => {
                   expiresIn: "1h",
                 }
               );
-              console.log("We have found results");
+
               res.json({
                 message: "Login Successful SMKR we made it",
                 token: token,
                 success: true,
               });
-              console.log(token);
             } else {
               res.json({ success: false, message: "passwords do not match" });
             }
@@ -67,8 +64,13 @@ const login = (req, res) => {
       }
     })
     .catch((err) => {
-      console.log("We didnt get anything");
+      console.log(err);
     });
+};
+const home = async (req, res) => {
+  const user = await User.findById(dbUser.id);
+  console.log(user);
+  res.json(user);
 };
 const deleteUser = (req, res) => {
   const id = req.params.id;
@@ -81,4 +83,16 @@ const deleteUser = (req, res) => {
   });
 };
 
-module.exports = { signUp, login, deleteUser };
+const tokenValid = async (req, res) => {
+  const token = req.header("auth-token");
+  if (!token) return res.json(false);
+
+  const verified = jwt.verify(token, process.env.JWT_SECRET);
+  if (!verified) return res.json(false);
+
+  const user = await User.findById(verified.id);
+  if (!user) return res.json(false);
+  return res.json(true);
+};
+
+module.exports = { signUp, login, deleteUser, home, tokenValid };

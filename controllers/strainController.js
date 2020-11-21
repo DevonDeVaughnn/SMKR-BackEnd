@@ -1,95 +1,87 @@
 const Strain = require("../models/strainModel");
 
-//List strains
-const index = (req, res, next) => {
-  User.find()
+const straindex = (req, res, next) => {
+  Strain.find()
     .then((response) => {
-      res.json({
-        response,
-      });
+      res.json({ response });
     })
     .catch((error) => {
       res.json({
-        message: "An error occured",
+        message: "Error getting strains",
       });
     });
 };
 
-//show single strain
-const show = (req, res, next) => {
-  let strainId = req.body.Strain;
-  Strain.findById(strainId)
+const strain = (req, res, next) => {
+  let strainID = req.body.strainID;
+  Strain.findById(strainID)
     .then((response) => {
-      res.json({
-        response,
-      });
+      res.json({ response });
     })
     .catch((error) => {
       res.json({
-        message: "An error occured",
+        message: "Error getting single strain",
       });
     });
 };
-const storeStrain = (req, res, next) => {
+const store = (req, res, next) => {
   let strain = new Strain({
-    strain: req.body.strain,
+    name: req.body.name,
     race: req.body.race,
     flavors: req.body.flavors,
-    positiveEffects: [req.body.positiveEffects],
-    negativeEffects: [req.body.negativeEffects],
-    medical: [req.body.medical],
+    positiveEffects: req.body.effects.positive,
+    negativeEffects: req.body.effects.negative,
+    medical: req.body.effects.medical,
   });
   strain
     .save()
     .then((response) => {
-      res.json({
-        response,
-      });
+      res.json({ response });
     })
     .catch((error) => {
       res.json({
-        message: "An error occured storing strain",
+        message: "Error saving strain",
       });
     });
 };
 
-//update user info
 const update = (req, res, next) => {
-  let userID = req.body.userID;
-  let updateInfo = {
-    strain: req.body.strain,
+  let strainID = req.body.strainID;
+  let updateData = {
+    name: req.body.name,
     race: req.body.race,
     flavors: req.body.flavors,
-    positiveEffects: [req.body.positiveEffects],
-    negativeEffects: [req.body.negativeEffects],
-    medical: [req.body.medical],
+    positiveEffects: req.body.effects.positive,
+    negativeEffects: req.body.effects.negative,
+    medical: req.body.effects.medical,
   };
-  User.findByIdAndUpdate(userID, { $set: updateInfo })
-    .then((response) => {
-      res.json({
-        message: "Updated successfully",
-      });
+  Strain.findByIdAndUpdate(strainID, { $set: updateData })
+    .then(() => {
+      res.json({ msg: "Added to your faves" });
     })
     .catch((error) => {
       res.json({
-        message: "An error occured updating",
+        message: "Error getting single strain",
       });
     });
 };
-const remove = (req, res, next) => {
-  let userID = req.body.userID;
 
-  User.findByIdAndRemove(userID)
-
+const destroy = (req, res, next) => {
+  let strainID = req.body.strainID;
+  Strain.findByIdAndRemove(strainID)
     .then((response) => {
-      res.json({
-        message: "Account deleted :(",
-      });
+      res.json({ response });
     })
     .catch((error) => {
       res.json({
-        message: "Error deleting account",
+        message: "Error getting single strain",
       });
     });
 };
-module.exports = { index, show, update, storeStrain, remove };
+module.exports = {
+  straindex,
+  strain,
+  store,
+  update,
+  destroy,
+};

@@ -13,7 +13,7 @@ let mailOptions = {
   from: "ssmkr420@gmail.com",
   to: "",
   subject: "Testing and testing",
-  text: "Hi Im high",
+  text: "High!",
 };
 
 transporter.sendMail(mailOptions, function (err, data) {
