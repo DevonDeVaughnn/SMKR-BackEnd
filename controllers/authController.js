@@ -1,5 +1,6 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
+
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -16,10 +17,11 @@ const signUp = (req, res, next) => {
       email: req.body.email,
       age: req.body.age,
     });
+
     user
       .save()
-      .then((user) => {
-        res.json({ message: "User Saved" });
+      .then((dbUser) => {
+        res.json({ success: true, message: "User Saved" });
       })
       .catch((error) => {
         res.json({
@@ -30,12 +32,8 @@ const signUp = (req, res, next) => {
 };
 
 const login = (req, res) => {
-  let username = req.body.username;
-  let password = req.body.password;
-  console.log({ username: req.body.username });
   User.findOne({ username: req.body.username })
     .then((dbUser) => {
-      console.log(dbUser);
       if (dbUser) {
         bcrypt.compare(
           req.body.password,
@@ -46,19 +44,19 @@ const login = (req, res) => {
             }
             if (results) {
               let token = jwt.sign(
-                { username: dbUser.username },
+                { name: dbUser.username },
                 process.env.JWT_SECRET,
                 {
                   expiresIn: "1h",
                 }
               );
-              console.log("We have found results");
+
               res.json({
                 message: "Login Successful SMKR we made it",
                 token: token,
+                data: user,
                 success: true,
               });
-              console.log(token);
             } else {
               res.json({ success: false, message: "passwords do not match" });
             }
@@ -67,11 +65,16 @@ const login = (req, res) => {
       }
     })
     .catch((err) => {
-      console.log("We didnt get anything");
+      console.log(err);
     });
 };
+const home = async (req, res) => {
+  const user = await User.findById(user._id);
+  console.log(user);
+  res.json(user);
+};
 const deleteUser = (req, res) => {
-  const id = req.params.id;
+  const id = req.params._id;
   User.findByIdAndDelete(id, function (err, user) {
     if (err) {
       console.log(err);
@@ -81,4 +84,16 @@ const deleteUser = (req, res) => {
   });
 };
 
-module.exports = { signUp, login, deleteUser };
+const tokenValid = async (req, res) => {
+  const token = req.header("x-auth-token");
+  if (!token) return res.json(false);
+
+  const verified = jwt.verify(token, process.env.JWT_SECRET);
+  if (!verified) return res.json(false);
+
+  const user = await User.findById(verified.id);
+  if (!user) return res.json(false);
+  return res.json(true);
+};
+
+module.exports = { signUp, login, deleteUser, home, tokenValid };

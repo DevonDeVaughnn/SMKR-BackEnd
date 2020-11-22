@@ -2,8 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
-const strainRoute = require("./routes/strain");
 const authRoute = require("./routes/auth");
+const strainRoute = require("./routes/strain");
 
 const cors = require("cors");
 
@@ -16,11 +16,15 @@ app.use(bodyParser.json());
 
 require("dotenv").config();
 
-// Define middleware here
-
-app.use(express.urlencoded({ extended: true }));
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+});
+mongoose.connection.on("connected", () => {
+  console.log("Mongoose connected");
+});
 app.use(express.json());
-console.log(process.env.MONGODB_URI);
+app.use(express.urlencoded({ extended: true }));
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
@@ -46,8 +50,8 @@ app.use((req, res, next) => {
 });
 // Add routes, both API and view
 
-app.use("api/strains", strainRoute);
 app.use("/api", authRoute);
+app.use("/api/strain", strainRoute);
 
 //Move after finished
 
@@ -67,13 +71,6 @@ app.use((error, req, res, next) => {
 });
 
 // Connect to the Mongo DB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/smkrdb", {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-});
-mongoose.connection.on("connected", () => {
-  console.log("Mongoose connected");
-});
 
 // Start the API server
 app.listen(PORT, function () {
