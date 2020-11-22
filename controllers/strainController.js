@@ -1,7 +1,9 @@
 const Strain = require("../models/strainModel");
+const User = require("../models/userModel");
 
 const straindex = (req, res, next) => {
   Strain.find()
+
     .then((response) => {
       res.json({ response });
     })
@@ -35,6 +37,7 @@ const store = (req, res, next) => {
   });
   strain
     .save()
+
     .then((response) => {
       res.json({ response });
     })

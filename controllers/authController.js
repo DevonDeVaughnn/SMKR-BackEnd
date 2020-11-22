@@ -17,6 +17,7 @@ const signUp = (req, res, next) => {
       email: req.body.email,
       age: req.body.age,
     });
+
     user
       .save()
       .then((dbUser) => {
@@ -33,7 +34,6 @@ const signUp = (req, res, next) => {
 const login = (req, res) => {
   User.findOne({ username: req.body.username })
     .then((dbUser) => {
-      console.log(dbUser);
       if (dbUser) {
         bcrypt.compare(
           req.body.password,
@@ -44,7 +44,7 @@ const login = (req, res) => {
             }
             if (results) {
               let token = jwt.sign(
-                { username: dbUser.username },
+                { name: dbUser.username },
                 process.env.JWT_SECRET,
                 {
                   expiresIn: "1h",
@@ -54,6 +54,7 @@ const login = (req, res) => {
               res.json({
                 message: "Login Successful SMKR we made it",
                 token: token,
+                data: user,
                 success: true,
               });
             } else {
@@ -68,12 +69,12 @@ const login = (req, res) => {
     });
 };
 const home = async (req, res) => {
-  const user = await User.findById(dbUser.id);
+  const user = await User.findById(user._id);
   console.log(user);
   res.json(user);
 };
 const deleteUser = (req, res) => {
-  const id = req.params.id;
+  const id = req.params._id;
   User.findByIdAndDelete(id, function (err, user) {
     if (err) {
       console.log(err);
@@ -84,7 +85,7 @@ const deleteUser = (req, res) => {
 };
 
 const tokenValid = async (req, res) => {
-  const token = req.header("auth-token");
+  const token = req.header("x-auth-token");
   if (!token) return res.json(false);
 
   const verified = jwt.verify(token, process.env.JWT_SECRET);
