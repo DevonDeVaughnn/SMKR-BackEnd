@@ -44,7 +44,7 @@ const login = (req, res) => {
             }
             if (results) {
               let token = jwt.sign(
-                { name: dbUser.username },
+                { usernname: dbUser.username },
                 process.env.JWT_SECRET,
                 {
                   expiresIn: "1h",
@@ -54,7 +54,7 @@ const login = (req, res) => {
               res.json({
                 message: "Login Successful SMKR we made it",
                 token: token,
-                data: user,
+                data: dbUser,
                 success: true,
               });
             } else {

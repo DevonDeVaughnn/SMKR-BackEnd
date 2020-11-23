@@ -1,9 +1,7 @@
 const Strain = require("../models/strainModel");
-const User = require("../models/userModel");
 
 const straindex = (req, res, next) => {
   Strain.find()
-
     .then((response) => {
       res.json({ response });
     })
@@ -15,10 +13,9 @@ const straindex = (req, res, next) => {
 };
 
 const strain = (req, res, next) => {
-  let strainID = req.body.strainID;
-  Strain.findById(strainID)
+  Strain.findById(req.params._id)
     .then((response) => {
-      res.json({ response });
+      res.json(response);
     })
     .catch((error) => {
       res.json({
@@ -26,6 +23,7 @@ const strain = (req, res, next) => {
       });
     });
 };
+
 const store = (req, res, next) => {
   let strain = new Strain({
     name: req.body.name,
@@ -49,7 +47,6 @@ const store = (req, res, next) => {
 };
 
 const update = (req, res, next) => {
-  let strainID = req.body.strainID;
   let updateData = {
     name: req.body.name,
     race: req.body.race,
@@ -58,7 +55,7 @@ const update = (req, res, next) => {
     negativeEffects: req.body.effects.negative,
     medical: req.body.effects.medical,
   };
-  Strain.findByIdAndUpdate(strainID, { $set: updateData })
+  Strain.findByIdAndUpdate(req.body.id, { $set: updateData })
     .then(() => {
       res.json({ msg: "Added to your faves" });
     })
@@ -70,8 +67,7 @@ const update = (req, res, next) => {
 };
 
 const destroy = (req, res, next) => {
-  let strainID = req.body.strainID;
-  Strain.findByIdAndRemove(strainID)
+  Strain.findByIdAndDelete(req.params.id)
     .then((response) => {
       res.json({ response });
     })

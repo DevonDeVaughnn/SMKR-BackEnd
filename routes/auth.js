@@ -6,7 +6,9 @@ const authenticate = require("../middleware/authenticate");
 
 router.post("/signup", AuthController.signUp);
 router.post("/login", AuthController.login);
+
 router.get("/home", authenticate, AuthController.home);
+router.get("/", authenticate, AuthController.home);
 router.post("/tokenValid", AuthController.tokenValid);
 router.delete("/deleteUser", AuthController.deleteUser);
 
